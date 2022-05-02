@@ -7,8 +7,18 @@ var type_map = {
 	"trail":'平路',
 	"other":'其它',
 };
+var type_color_map = {
+	"slope":'brown',
+	"stair":'black',
+	"jump" :'orange',
+	"trail":'green',
+	"other":'blue',
+	"pending":"red"
+};
 
 var diff_map = ['毫无难度', '只需要会骑车', '小有意思', '略需技术', '挑战性大', '最好不要作死'];
+
+var inspectPending = null;
 
 $(document).ready(function() {
 	map = new AMap.Map('map_container', {
@@ -25,6 +35,7 @@ $(document).ready(function() {
 		var coor = new AMap.LngLat(m.lng, m.lat);
 		var marker = new AMap.Marker({
 			position: coor,
+			icon: '/l/figures/pins/pin-' + m.marker_type + '.png',
 			title: m.name
 		});
 		marker.on('click', () => {
@@ -88,4 +99,12 @@ $(document).ready(function() {
 			console.log(data);
 		});
 	});
+
+	inspectPending = (id) => {
+		$.get('/project-t/query/pending/' + id, (res, err) => {
+			res.name += ' (' + id + ')';
+			res.marker_type = 'pending';
+			addMarker(res);
+		});
+	};
 });
