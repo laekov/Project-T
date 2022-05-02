@@ -34,8 +34,11 @@ $(document).ready(function() {
 			type: $('#sitetype').val(),
 			diff: $('#sitediff').val(),
 			desc: $('#sitedesc').val(),
-			author: $('#contributor').val()
+			author: $('#author').val()
 		};
 		console.log(frm);
+		$.post('/project-t/query/submit', frm, (data) => {
+			console.log(data);
+		});
 	});
 });
